@@ -5,7 +5,7 @@ const Intro = () => {
         <div className='intro'>
             <h1 className='intro--title'>Quizzical</h1>
             <p className='intro--desc'>Some description if needed</p>
-            <button className='btn'>Start quiz!</button>
+            <button className='btn btn-intro'>Start quiz!</button>
         </div>
 
     )
