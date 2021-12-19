@@ -13,7 +13,7 @@ const App = () => {
     const [questions, setQuestions] = useState([])
 
     let apiLink = 'https://opentdb.com/api.php?amount=10'
-
+    //add a boolean is correct to questions
 
     const firstUpdate = useRef(true);
 
@@ -34,7 +34,7 @@ const App = () => {
         const correctAnswer = question.correct_answer
         const allAnswers = question.incorrect_answers
         allAnswers.push(correctAnswer)
-        return (<Question key={nanoid()} question={question.question} answers={allAnswers} />)
+        return (<Question key={nanoid()} question={question.question} answers={allAnswers} correctAnswer={correctAnswer} />)
     })
 
 
