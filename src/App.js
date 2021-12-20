@@ -50,7 +50,7 @@ const App = () => {
                 <Intro start={startQuiz} /> :
                 <div className='question-wrapper'>
                     {questionElement}
-                    <button className='btn btn-check'>Check asnwers</button>
+                    {/* <button className='btn btn-check'>Check asnwers</button> */}
                 </div>
 
 

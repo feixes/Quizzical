@@ -4,7 +4,7 @@ const Intro = (props) => {
     return (
         <div className='intro'>
             <h1 className='intro--title'>Quizzical</h1>
-            <p className='intro--desc'>Some description if needed</p>
+            <p className='intro--desc'>Placeholder text</p>
             <button onClick={props.start} className='btn btn-intro'>Start quiz!</button>
         </div>
 
