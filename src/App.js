@@ -30,11 +30,35 @@ const App = () => {
     }, [start])
 
 
+    const [answers, setAnswers] = useState([])
+
+
     const questionElement = questions.map(question => {
         const correctAnswer = question.correct_answer
         const allAnswers = question.incorrect_answers
         allAnswers.push(correctAnswer)
-        return (<Question key={nanoid()} question={question.question} answers={allAnswers} correctAnswer={correctAnswer} />)
+        // the answer state should be created here, with the funtion to hold one answer and the function to check the answers
+
+
+        setAnswers(allAnswers.map(answer => {
+            return {
+                id: nanoid(),
+                answer: answer,
+                isHeld: false
+            }
+        }))
+
+        // Function to hold the selected answer. Passed as props
+        const holdAnswer = (id) => {
+            setAnswers(prevAnswer => prevAnswer.map(answer => {
+                return answer.id === id ? {
+                    ...answer,
+                    isHeld: !answer.isHeld
+                } : answer
+            }))
+        }
+
+        return (<Question key={nanoid()} question={question.question} answers={answers} holdAnswer={holdAnswer} />)
     })
 
 
@@ -50,7 +74,7 @@ const App = () => {
                 <Intro start={startQuiz} /> :
                 <div className='question-wrapper'>
                     {questionElement}
-                    {/* <button className='btn btn-check'>Check asnwers</button> */}
+                    <button className='btn btn-check'>Check asnwers</button>
                 </div>
 
 
