@@ -11,6 +11,7 @@ const App = () => {
 
     const [start, setStart] = useState(false)
     const [questions, setQuestions] = useState([])
+    const [answers, setAnswers] = useState([])
 
     let apiLink = 'https://opentdb.com/api.php?amount=10'
     //add a boolean is correct to questions
@@ -22,31 +23,53 @@ const App = () => {
             firstUpdate.current = false;
             return;
         }
-        console.log("api called")
-        fetch(apiLink)
-            .then(res => res.json())
-            .then(data => setQuestions(data.results))
+
+        // fetch(apiLink)
+        //     .then(res => res.json())
+        //     .then(data => setQuestions(data.results))
+
+        const apiCall = async () => {
+            const res = await fetch(apiLink)
+            const data = await res.json()
+            setQuestions(data.results)
+            setAnswers(createAnswers(data.results))
+            console.log("api called")
+        }
+
+        apiCall()
+
+        console.log(answers)
+        console.log(questions)
 
     }, [start])
 
 
-    const [answers, setAnswers] = useState([])
+
+    const createAnswers = (questionArray) => {
+        const answerArray = questionArray.map(question => {
+            const correctAnswer = question.correct_answer
+            const allAnswers = question.incorrect_answers
+            allAnswers.push(correctAnswer)
+
+            const answerOneQuestion = allAnswers.map(answer => {
+                return {
+                    id: nanoid(),
+                    answer: answer,
+                    isHeld: false
+                }
+            })
+            return answerOneQuestion
+        })
+
+        return answerArray
+    }
 
 
-    const questionElement = questions.map(question => {
-        const correctAnswer = question.correct_answer
-        const allAnswers = question.incorrect_answers
-        allAnswers.push(correctAnswer)
-        // the answer state should be created here, with the funtion to hold one answer and the function to check the answers
+    const questionElement = questions.map((question, index) => {
+        // const correctAnswer = question.correct_answer
+        // const allAnswers = question.incorrect_answers
+        // allAnswers.push(correctAnswer)
 
-
-        setAnswers(allAnswers.map(answer => {
-            return {
-                id: nanoid(),
-                answer: answer,
-                isHeld: false
-            }
-        }))
 
         // Function to hold the selected answer. Passed as props
         const holdAnswer = (id) => {
@@ -58,7 +81,7 @@ const App = () => {
             }))
         }
 
-        return (<Question key={nanoid()} question={question.question} answers={answers} holdAnswer={holdAnswer} />)
+        return (<Question key={nanoid()} question={question.question} answers={answers[index]} holdAnswer={holdAnswer} />)
     })
 
 
