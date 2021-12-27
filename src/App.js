@@ -11,7 +11,7 @@ const App = () => {
 
     const [start, setStart] = useState(false)
     const [questions, setQuestions] = useState([])
-    const [answers, setAnswers] = useState([])
+    const [answers, setAnswers] = useState([['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], [1, 2, 3, 4]])
 
     let apiLink = 'https://opentdb.com/api.php?amount=10'
     //add a boolean is correct to questions
@@ -29,17 +29,20 @@ const App = () => {
         //     .then(data => setQuestions(data.results))
 
         const apiCall = async () => {
-            const res = await fetch(apiLink)
-            const data = await res.json()
-            setQuestions(data.results)
-            setAnswers(createAnswers(data.results))
-            console.log("api called")
+            try {
+                const res = await fetch(apiLink)
+                const data = await res.json()
+                setQuestions(data.results)
+                //setAnswers(createAnswers(data.results))
+                console.log("api called")
+
+            } catch (e) {
+                console.log('failed')
+                console.log(e)
+            }
         }
 
         apiCall()
-
-        console.log(answers)
-        console.log(questions)
 
     }, [start])
 
@@ -71,17 +74,7 @@ const App = () => {
         // allAnswers.push(correctAnswer)
 
 
-        // Function to hold the selected answer. Passed as props
-        const holdAnswer = (id) => {
-            setAnswers(prevAnswer => prevAnswer.map(answer => {
-                return answer.id === id ? {
-                    ...answer,
-                    isHeld: !answer.isHeld
-                } : answer
-            }))
-        }
-
-        return (<Question key={nanoid()} question={question.question} answers={answers[index]} holdAnswer={holdAnswer} />)
+        return (<Question key={nanoid()} question={question.question} answers={answers[index]} />)
     })
 
 
