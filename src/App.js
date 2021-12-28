@@ -11,7 +11,8 @@ const App = () => {
 
     const [start, setStart] = useState(false)
     const [questions, setQuestions] = useState([])
-    const [answers, setAnswers] = useState([['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], [1, 2, 3, 4]])
+    const [answers, setAnswers] = useState([])
+    //const [answers, setAnswers] = useState([['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], [1, 2, 3, 4]])
 
     let apiLink = 'https://opentdb.com/api.php?amount=10'
     //add a boolean is correct to questions
@@ -33,7 +34,8 @@ const App = () => {
                 const res = await fetch(apiLink)
                 const data = await res.json()
                 setQuestions(data.results)
-                //setAnswers(createAnswers(data.results))
+                const answersApi = createAnswers(data.results)
+                setAnswers(answersApi)
                 console.log("api called")
 
             } catch (e) {
@@ -49,6 +51,7 @@ const App = () => {
 
 
     const createAnswers = (questionArray) => {
+        console.log({ questionArray })
         const answerArray = questionArray.map(question => {
             const correctAnswer = question.correct_answer
             const allAnswers = question.incorrect_answers
