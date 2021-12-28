@@ -30,7 +30,7 @@ const Question = (props) => {
     const answerElements = props.answers.map(answer => <div
         key={nanoid()}
         className='answer'
-        // onClick={() => props.holdAnswer(answer.id)}
+        onClick={() => props.holdAnswer(answer.id)}
         style={{ backgroundColor: answer.isHeld ? '#D6DBF5' : 'inherit' }}>
         {answer.answer}
     </div >)

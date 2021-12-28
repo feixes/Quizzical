@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import Intro from './components/Intro'
 import Question from './components/Question'
 
-import { shuffle } from 'underscore'
+import { indexOf, shuffle } from 'underscore'
 import { nanoid } from 'nanoid'
 
 
@@ -11,8 +11,8 @@ const App = () => {
 
     const [start, setStart] = useState(false)
     const [questions, setQuestions] = useState([])
-    const [answers, setAnswers] = useState([])
-    //const [answers, setAnswers] = useState([['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], [1, 2, 3, 4]])
+    //const [answers, setAnswers] = useState([])
+    const [answers, setAnswers] = useState([['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], [1, 2, 3, 4]])
 
     let apiLink = 'https://opentdb.com/api.php?amount=10'
     //add a boolean is correct to questions
@@ -51,7 +51,6 @@ const App = () => {
 
 
     const createAnswers = (questionArray) => {
-        console.log({ questionArray })
         const answerArray = questionArray.map(question => {
             const correctAnswer = question.correct_answer
             const allAnswers = question.incorrect_answers
@@ -70,14 +69,34 @@ const App = () => {
         return answerArray
     }
 
+    const holdAnswer = (id) => {
+        let index
+        for (const i = 0; i > answers.length; i++) {
+            for (const [i, answer] of answers) {
+                for (const answerOption of answer) {
+                    if (answerOption.id === id) {
+                        index = i
+                    }
+                }
+            }
+        }
+
+        setAnswers(prevAnswers => prevAnswers[index].map(answer => {
+            return answer.id === id ? {
+                ...answer,
+                idHeld: !answer.isHeld
+            } : answer
+        }))
+    }
+
 
     const questionElement = questions.map((question, index) => {
-        // const correctAnswer = question.correct_answer
-        // const allAnswers = question.incorrect_answers
-        // allAnswers.push(correctAnswer)
-
-
-        return (<Question key={nanoid()} question={question.question} answers={answers[index]} />)
+        return (<Question
+            key={nanoid()}
+            question={question.question}
+            answers={answers[index]}
+            holdAnswer={holdAnswer}
+        />)
     })
 
 
