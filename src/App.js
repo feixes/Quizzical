@@ -70,23 +70,27 @@ const App = () => {
     }
 
     const holdAnswer = (id) => {
-        let index
-        for (const i = 0; i > answers.length; i++) {
-            for (const [i, answer] of answers) {
-                for (const answerOption of answer) {
-                    if (answerOption.id === id) {
-                        index = i
-                    }
+        let clickedOption
+
+        for (const [i, answer] of answers.entries()) {
+            for (const answerOption of answer) {
+                if (answerOption.id === id) {
+                    clickedOption = i
                 }
             }
         }
 
-        setAnswers(prevAnswers => prevAnswers[index].map(answer => {
+        // crear una nueava array con los cambios del objeto y actualizar el estado con este array
+
+        const newAnswers = [...answers]
+        newAnswers[clickedOption] = newAnswers[clickedOption].map(answer => {
             return answer.id === id ? {
                 ...answer,
-                idHeld: !answer.isHeld
+                isHeld: !answer.isHeld
             } : answer
-        }))
+        })
+
+        setAnswers(newAnswers)
     }
 
 

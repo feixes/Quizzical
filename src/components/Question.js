@@ -25,7 +25,6 @@ const Question = (props) => {
     const styles = {
         backgroundColor: '#D6DBF5'
     }
-    // console.log(answers)
 
     const answerElements = props.answers.map(answer => <div
         key={nanoid()}
