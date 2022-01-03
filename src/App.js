@@ -15,7 +15,7 @@ const App = () => {
     //const [answers, setAnswers] = useState([])
     const [answers, setAnswers] = useState([['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], [1, 2, 3, 4]])
 
-    let apiLink = 'https://opentdb.com/api.php?amount=10'
+    let apiLink = 'https://opentdb.com/api.php?amount=2'
     //add a boolean is correct to questions
 
     const firstUpdate = useRef(true);
@@ -108,20 +108,15 @@ const App = () => {
     }
 
     const checkAnswer = () => {
+
         const answerArray = answers.map((answer, index) => {
-            for (const answerOption of answer) {
-                if (answerOption.isHeld && answerOption.answer === questions[index].correct_answer) {
-                    return {
-                        ...answer,
-                        isCorrect: true
-                    }
-                } else {
-                    return {
-                        ...answer,
-                        isCorrect: false
-                    }
-                }
-            }
+            return answer.map(answerOption => {
+                return answerOption.isHeld && answerOption.answer === questions[index].correct_answer ? {
+                    ...answerOption,
+                    isCorrect: true
+                } : answerOption
+
+            })
         })
         setAnswers(answerArray)
         setCorrect(true)

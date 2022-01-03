@@ -22,12 +22,13 @@ const Question = (props) => {
     //     }))
     // }
 
-
+    console.log(props.correct)
+    console.log(props.answers)
     const answerElements = props.answers.map(answer => <div
         key={nanoid()}
-        className={`answer ${props.correct && (answer.isCorrect ? "correct" : "incorrect")}`}
-        onClick={() => props.holdAnswer(answer.id)}
-        style={{ backgroundColor: answer.isHeld ? '#D6DBF5' : 'inherit' }}>
+        className={`answer ${props.correct && (answer.isCorrect ? "correct" : answer.isHeld ? "incorrect" : "inherit")}`}
+        // style={{ backgroundColor: answer.isHeld ? '#D6DBF5' : 'inherit' }}
+        onClick={() => props.holdAnswer(answer.id)}>
         {answer.answer}
     </div >)
     // add a isHeld boolean to check if is held. Should recieve a correct answer prop to compare and check
