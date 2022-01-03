@@ -26,7 +26,7 @@ const Question = (props) => {
     console.log(props.answers)
     const answerElements = props.answers.map(answer => <div
         key={nanoid()}
-        className={`answer ${props.correct && (answer.isCorrect ? "correct" : answer.isHeld ? "incorrect" : "inherit")}`}
+        className={`answer ${answer.isHeld && !props.correct && "hold"} ${props.correct && answer.isCorrect && "correct"} ${props.correct && ((!answer.isCorrect && answer.isHeld) ? "incorrect" : "")}`}
         // style={{ backgroundColor: answer.isHeld ? '#D6DBF5' : 'inherit' }}
         onClick={() => props.holdAnswer(answer.id)}>
         {answer.answer}

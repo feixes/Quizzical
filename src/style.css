@@ -115,6 +115,9 @@ body {
   border-radius: 20px;
 }
 
+.hold {
+  background-color: #d6dbf5;
+}
 .correct {
   background-color: green;
 }

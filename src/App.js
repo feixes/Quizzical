@@ -111,7 +111,7 @@ const App = () => {
 
         const answerArray = answers.map((answer, index) => {
             return answer.map(answerOption => {
-                return answerOption.isHeld && answerOption.answer === questions[index].correct_answer ? {
+                return answerOption.answer === questions[index].correct_answer ? {
                     ...answerOption,
                     isCorrect: true
                 } : answerOption
