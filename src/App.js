@@ -10,6 +10,7 @@ import { nanoid } from 'nanoid'
 const App = () => {
 
     const [start, setStart] = useState(false)
+    const [correct, setCorrect] = useState(false)
     const [questions, setQuestions] = useState([])
     //const [answers, setAnswers] = useState([])
     const [answers, setAnswers] = useState([['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], ['a', 'b', 'c'], [1, 2, 3, 4]])
@@ -69,16 +70,28 @@ const App = () => {
         return answerArray
     }
 
-    const holdAnswer = (id) => {
-        let clickedOption
 
+    const findAnswer = (id) => {
         for (const [i, answer] of answers.entries()) {
             for (const answerOption of answer) {
                 if (answerOption.id === id) {
-                    clickedOption = i
+                    return i
                 }
             }
         }
+
+    }
+
+    const holdAnswer = (id) => {
+        let clickedOption = findAnswer(id)
+
+        // for (const [i, answer] of answers.entries()) {
+        //     for (const answerOption of answer) {
+        //         if (answerOption.id === id) {
+        //             clickedOption = i
+        //         }
+        //     }
+        // }
 
         // crear una nueava array con los cambios del objeto y actualizar el estado con este array
 
@@ -91,6 +104,27 @@ const App = () => {
         })
 
         setAnswers(newAnswers)
+
+    }
+
+    const checkAnswer = () => {
+        const answerArray = answers.map((answer, index) => {
+            for (const answerOption of answer) {
+                if (answerOption.isHeld && answerOption.answer === questions[index].correct_answer) {
+                    return {
+                        ...answer,
+                        isCorrect: true
+                    }
+                } else {
+                    return {
+                        ...answer,
+                        isCorrect: false
+                    }
+                }
+            }
+        })
+        setAnswers(answerArray)
+        setCorrect(true)
     }
 
 
@@ -100,6 +134,7 @@ const App = () => {
             question={question.question}
             answers={answers[index]}
             holdAnswer={holdAnswer}
+            correct={correct}
         />)
     })
 
@@ -116,7 +151,7 @@ const App = () => {
                 <Intro start={startQuiz} /> :
                 <div className='question-wrapper'>
                     {questionElement}
-                    <button className='btn btn-check'>Check asnwers</button>
+                    <button className='btn btn-check' onClick={checkAnswer}>Check answers</button>
                 </div>
 
 

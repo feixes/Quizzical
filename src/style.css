@@ -115,6 +115,14 @@ body {
   border-radius: 20px;
 }
 
+.correct {
+  background-color: green;
+}
+
+.incorrect {
+  background: red;
+}
+
 @media (min-width: 950px) {
   .answers-container {
     display: flex;

@@ -22,13 +22,10 @@ const Question = (props) => {
     //     }))
     // }
 
-    const styles = {
-        backgroundColor: '#D6DBF5'
-    }
 
     const answerElements = props.answers.map(answer => <div
         key={nanoid()}
-        className='answer'
+        className={`answer ${props.correct && (answer.isCorrect ? "correct" : "incorrect")}`}
         onClick={() => props.holdAnswer(answer.id)}
         style={{ backgroundColor: answer.isHeld ? '#D6DBF5' : 'inherit' }}>
         {answer.answer}
